@@ -6,7 +6,7 @@ Deep Dive happens every week. Normally Fridays at 2pm Pacific but occasionally s
 ## Formatting Episodes notes with add_yt_links.py
 
 Add Direct YT links to Timestamped Markdown Files
-Example YT URL "https://www.youtube.com/watch?v=VIDEO_ID?t=seconds"
+Example YT URL "https://www.youtube.com/watch?v=VIDEO_ID&t=seconds"
 
 Examples:
 `python add_yt_links VIDEO_ID`

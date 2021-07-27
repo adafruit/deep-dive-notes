@@ -1,6 +1,6 @@
 """
     Add Direct YT links to Timestamped Markdown Files
-    Example YT URL "https://www.youtube.com/watch?v=VIDEO_ID?t=seconds"
+    Example YT URL "https://www.youtube.com/watch?v=VIDEO_ID&t=seconds"
 
     Example:
         python add_yt_links VIDEO_ID
@@ -70,7 +70,7 @@ def yt_timestamp_url_repl(match):
     if len(elapsed_time.split(":")) == 2:
         elapsed_time = f"0:{elapsed_time}"
     seconds = convert_elapsed_time_to_seconds(elapsed_time)
-    episode_url_ts = f"https://www.youtube.com/watch?v={VIDEO_ID}?t={seconds}"
+    episode_url_ts = f"https://www.youtube.com/watch?v={VIDEO_ID}&t={seconds}"
     print(episode_url_ts)
     return f"* [{match.group(0).split(' ')[1]}]({episode_url_ts})"
 

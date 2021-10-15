@@ -31,7 +31,6 @@ def convert_elapsed_time_to_seconds(elapsed_time):
     return:
     seconds (int)
     """
-    print(f"convert_elapsed_time_to_seconds: {elapsed_time}")
     _elapsed_time = time.strptime(elapsed_time, "%H:%M:%S")
     return int(
         datetime.timedelta(
@@ -82,13 +81,11 @@ def yt_timestamp_url_repl(match):
     Return:
     new string (str)
     """
-    print(match.group)
     elapsed_time = match.group(0)
     if len(elapsed_time.split(":")) == 2:
         elapsed_time = f"0:{elapsed_time}"
     seconds = convert_elapsed_time_to_seconds(elapsed_time)
     episode_url_ts = f"{YT_BASE_URL}{YT_VIDEO_ID}&t={seconds}"
-    print(episode_url_ts)
     return f"- [{match.group(0)}]({episode_url_ts})"
 
 
@@ -102,6 +99,7 @@ if __name__ == "__main__":
         with open(episode_path, "w", encoding="utf-8") as episode_file:
             episode_file.write(f"# {episode['title'].strip()}\n\n")
             episode_file.write(episode["description"])
-        process_episode_description(episode_file)
+        process_episode_description(episode_path)
+        print(f"{episode_path} created.")
     else:
         print(f"{episode_path} already exists.")

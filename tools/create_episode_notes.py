@@ -50,16 +50,16 @@ def get_episode_from_yt(video_id):
     episode (dict): Episode object wirh title, description and date
     """
     response = requests.get(f"{YT_BASE_URL}{video_id}")
-    description_regex = r'"shortDescription":"(.*?)"'
+    description_regex = r'"shortDescription":"(.*?)","'
     date_regex = r'"uploadDate":"(.*?)"'
-    title_regex = r'"title":"(.*?)"'
+    title_regex = r'"title":"(.*?)","'
     description_matches = re.search(description_regex, response.text)
     date_matches = re.search(date_regex, response.text)
     title_matches = re.search(title_regex, response.text)
     return {
         "date": date_matches.group(1),
         "description": description_matches.group(1).replace("\\n", "\n"),
-        "title": title_matches.group(1).replace("#adafruit", ""),
+        "title": title_matches.group(1).replace("#adafruit", "").strip(),
     }
 
 

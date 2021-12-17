@@ -32,7 +32,7 @@ jobs:
         if: ${{ env.NEWFILE_PATH }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REVIEWER: "askpatrickw"
+          REVIEWER: "tannewt"
         run: |
           echo "Config GH User and Email"
           git config user.name "Github Actions Bot"

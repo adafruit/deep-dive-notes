@@ -21,12 +21,12 @@ jobs:
          python --version
          git --version
          gh version
-         pip install -r requirements.txt
       - name: Check for and generate new show notes
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           YOUTUBE_PLAYLIST_ID: "PLjF7R1fz_OOXBHlu9msoXq2jQN4JpCk8A"
         run: |
+          pip install -r requirements.txt
           python tools/yt_playlist_show_notes.py
       - name: Git Add & Commit
         if: ${{ env.NEWFILE_PATH }}

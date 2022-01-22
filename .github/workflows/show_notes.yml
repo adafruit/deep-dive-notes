@@ -2,7 +2,7 @@ name: Show Notes Update
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron: '0 18 * * *' # https://crontab.guru/#40_18_*_*_*
+    - cron: '0 18 * * 1' # https://crontab.guru/#40_18_*_*_1
   workflow_dispatch:
 permissions:
   contents: write
@@ -18,16 +18,25 @@ jobs:
           python-version: '3.9'
       - name: Capture Versions & Install Requirements
         run: |
-         python --version
-         git --version
-         gh version
+          python --version
+          git --version
+          gh version
+          pip install -r requirements.txt
       - name: Check for and generate new show notes
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           YOUTUBE_PLAYLIST_ID: "PLjF7R1fz_OOXBHlu9msoXq2jQN4JpCk8A"
         run: |
-          pip install -r requirements.txt
           python tools/yt_playlist_show_notes.py
+      - name: Git Add & Commit
+        if: ${{ env.NEWFILE_PATH }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git show-ref --quiet refs/heads/develop; then
+            echo "${{ env.NEWFILE_PATH }} branch already exists"
+            echo "NEWFILE_PATH=''" >> $GITHUB_ENV
+          fi
       - name: Git Add & Commit
         if: ${{ env.NEWFILE_PATH }}
         env:

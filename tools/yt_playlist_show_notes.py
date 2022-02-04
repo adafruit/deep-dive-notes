@@ -61,8 +61,11 @@ class Episode:
 
     def format_thumbnail(self, resolution):
         """Create a markdown IMG from the available YT Thumbnails."""
-        thumbnail = self.thumbnails[resolution]
-        return f"![{self.title}]({thumbnail['url']} '{self.title}')"
+        if resolution in self.thumbnails.keys():
+            thumbnail = self.thumbnails[resolution]
+            return f"![{self.title}]({thumbnail['url']} '{self.title}')"
+        print(f"Thumbnail resolution not found in keys: {self.thumbnails.keys()}")
+        return None
 
     def __init__(self, episode_snippet):
         self.raw = episode_snippet
@@ -107,7 +110,8 @@ def get_latest_playlist_episode(api_key, playlist_id):
         print(f"YouTube Video ID: {episode.episode_id}")
         with open(episode.path, "w", encoding="utf-8") as episode_file:
             episode_file.write(f"# {episode.title}\n\n")
-            episode_file.write(f"{episode.thumbnail_markdown}\n\n")
+            if episode.thumbnail_markdown:
+                episode_file.write(f"{episode.thumbnail_markdown}\n\n")
             episode_file.write(episode.show_notes)
         return episode.path.as_posix()
     print(f"{episode.path} already exists.")
@@ -125,8 +129,7 @@ if __name__ == "__main__":
     except Exception as error:
         raise RuntimeError("YouTube Playlist ID is required.") from error
 
-    episode_notes = get_latest_playlist_episode(API_KEY, YOUTUBE_PLAYLIST_ID)
-    if episode_notes:
+    if episode_notes := get_latest_playlist_episode(API_KEY, YOUTUBE_PLAYLIST_ID):
         github_env = os.getenv("GITHUB_ENV")
         with open(github_env, "a", encoding="utf-8") as github_env_file:
             github_env_file.write(f"NEWFILE_PATH={episode_notes}")

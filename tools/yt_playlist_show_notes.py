@@ -112,7 +112,7 @@ def get_latest_playlist_episode(api_key, playlist_id):
             episode_file.write(f"# {episode.title}\n\n")
             if episode.thumbnail_markdown:
                 episode_file.write(f"{episode.thumbnail_markdown}\n\n")
-            episode_file.write(episode.show_notes)
+            episode_file.write(f"{episode.show_notes}\n")
         return episode.path.as_posix()
     print(f"{episode.path} already exists.")
     return False

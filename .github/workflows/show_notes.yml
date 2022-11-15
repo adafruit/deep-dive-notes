@@ -1,8 +1,8 @@
 name: Show Notes Update
 on:
-  schedule:
+  # schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron: '0 18 * * 1' # https://crontab.guru/#40_18_*_*_1
+    # - cron: '0 18 * * 1' # https://crontab.guru/#40_18_*_*_1
   workflow_dispatch:
 permissions:
   contents: write
